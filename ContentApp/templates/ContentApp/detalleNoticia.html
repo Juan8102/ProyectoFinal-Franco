@@ -1,0 +1,36 @@
+{% extends 'padre.html' %}
+
+{% block title %}
+    <title>Noticias CABA - Page {{noticia.id}}</title>
+{% endblock %}
+
+{% block contenido %}
+    <main>
+        <div style="display: inline-block; width: 75%; height: 500px; padding: 40px;">
+            <h1>{{noticia.titulo}}</h1>
+            {% if noticia.imagen %}
+                <img src="{{noticia.imagen.url}}" style="max-width: 600px; margin-top: 20px; margin-bottom: 20px;">
+            {% else %}
+                <div style="display: flex; height: 200px; align-items: center;">
+                    <h2 style="color: red;">Este artículo no cuenta con una imagen</h2>
+                </div>
+            {% endif %}
+            <h4 style="display: inline-block;">{{noticia.subtitulo}}</h4>
+            <hr>
+            <h5 style="color: rgba(0, 0, 0, 0.600);">{{noticia.cuerpo}}</h5>
+            <br>
+            <div style="display: flex; justify-content: space-between;">
+                <p>{{noticia.autor}}</p>
+                <p>{{noticia.fecha}}</p>
+            </div>
+            <hr>
+            <div style="display: flex; justify-content: space-between; margin-top: 36px;">
+                <a href="{% url 'Pages' %}" class="btn btn-primary">Regresar</a>
+                {% if request.user.is_staff %}
+                    <a href="{% url 'EditarNoticia' noticia.id %}" class="btn btn-warning" style="text-decoration: none;">Editar</a>
+                    <a href="{% url 'EliminarNoticia' noticia.id %}" class="btn btn-danger" style="text-decoration: none;">Eliminar</a>   
+                {% endif %}
+            </div>
+        </div>
+    </main>
+{% endblock %}

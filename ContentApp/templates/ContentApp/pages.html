@@ -1,0 +1,62 @@
+{% extends "padre.html" %}
+
+{% block title %}
+    <title>SER noticias - Pages</title>
+{% endblock %}
+
+{% block contenido %}
+    {% if request.user.is_staff %}
+        <div style="display: grid; grid-template-rows: 40px 40px; width: 100%; justify-content: center; align-items: center; margin-top: 40px; margin-bottom: 20px;">
+            <form action="{% url 'BuscarNoticias' %}" method="GET" class="d-flex align-items-center">
+                <input type="text" name="keywords" class="form-control me-2" placeholder="Buscar articulos">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
+            <div style="display: flex; width: 100%; justify-content: center; margin-top: 60px;">
+                <a href="{% url 'CrearNoticia' %}" class="btn btn-primary">Crear articulo</a>
+            </div>
+        </div>
+    {% elif request.user.is_authenticated %}
+        <div style="display: flex; width: 100%; justify-content: center; align-items: center; margin-top: 40px;">
+            <form action="{% url 'BuscarNoticias' %}" method="GET" class="d-flex align-items-center">
+                <input type="text" name="keywords" class="form-control me-2" placeholder="Buscar articulos">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
+        </div>
+    {% else %}
+        <div style="display: flex; width: 100%; justify-content: center; align-items: center; margin-top: 40px;">
+            <div class="d-flex align-items-center">
+                <input class="form-control me-2" placeholder="Inicia sesion para utilizar">
+                <a href="{% url 'Login' %}" class="btn btn-primary" style="width: 180px;">Iniciar sesion</a>
+            </div>
+        </div>
+    {% endif %}
+    {% if noticias %}
+        <div style="display: grid; grid-template-columns: 30% 30% 30%; min-height: 481px; justify-content: center; align-items: center;">
+            {% for noticia in noticias %}
+                <div class="card ms-4 mt-4" style="display: inline-block; max-width: 400px; max-height: 1000px;">
+                    {% if noticia.imagen %}
+                        <img src="{{noticia.imagen.url}}" class="card-img-top" alt="">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{noticia.titulo}}</h5>
+                        <hr>
+                        <h6 class="card-subtitle mb-2 text-body-secondary">{{noticia.subtitulo}}</h6>
+                        <br>
+                        <div style="display: flex; justify-content: space-between;">
+                            {% if request.user.is_authenticated %}
+                                <a href="{% url 'DetalleNoticia' noticia.id %}" style="text-decoration: none;" class="card-link">Leer mas</a>
+                            {% else %}
+                                <p style="font-size: 13px;">Para leer mas sobre este articulo<br>debes iniciar sesion</p>
+                            {% endif %}
+                            <p>{{noticia.fecha}}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div style="display: flex; min-height: 280px; justify-content: center; align-items: center;">
+            <h1>No hay noticias publicadas</h1>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+        <title>Tu perfil</title>
+    </head>
+    <body>
+        <div style="display: flex; min-height: 600px; justify-content: center; align-items: center;">
+            <div class="card" style="text-align: center; width: 18rem;">
+                <div class="card-body">
+                    {% if avatar %}
+                        <img src="{{avatar}}" style="border-radius: 100%; max-width: 80px;" class="card-img-top mb-2" alt="...">
+                    {% endif %}
+                    <h5 class="card-title">{{usuario.username}}</h5>
+                    <p class="card-text">{{usuario.email}}</p>
+                    <hr>
+                    <div style="display: grid; justify-content: center; margin-top: 10px;">
+                        <a href="{% url 'EditarPerfil' %}" class="btn btn-primary">Editar datos</a>
+                        {% if avatar %}
+                            <a href="{% url 'EditarAvatar' %}" class="btn btn-danger mt-3">Editar avatar</a>
+                        {% else %}
+                            <a href="{% url 'AgregarAvatar' %}" class="btn btn-danger mt-3">Agregar avatar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <a href="{{url}}" class="btn btn-secondary">Volver a inicio</a>
+        </div>
+    </body>
+</html>

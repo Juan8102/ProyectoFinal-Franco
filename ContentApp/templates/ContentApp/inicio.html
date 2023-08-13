@@ -1,0 +1,43 @@
+{% extends 'padre.html' %}
+
+{% block title %}
+    <title>SER noticias - Inicio</title>
+{% endblock %}
+
+{% block contenido %}
+    <main>
+        <div>
+            <img src="{{imagen}}" style="max-width: 100%;" alt="Imagen">
+            <div style="display: grid; width: 100%; height: 180px; justify-content: center; align-items: center; background-color: rgb(55, 63, 72);">
+                <h1 style="color: white;">El mundo en una pagina</h1>
+            </div>
+        </div>
+        {% if noticias %}
+            <div style="display: flex; justify-content: center; align-items: end; height: 80px;">
+                <h1>Ultimas noticias</h1>
+            </div>
+            <div style="display: grid; grid-template-columns: 33% 33% 33%; min-height: 481px; justify-content: center; align-items: start;">
+                {% for noticia in noticias|slice:"4:7" %}
+                    <div class="card ms-4 mt-4" style="display: inline-block; max-width: 400px; max-height: 1000px;">
+                        {% if noticia.imagen %}
+                            <img src="{{noticia.imagen.url}}" class="card-img-top" alt="">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{noticia.titulo}}</h5>
+                            <hr>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">{{noticia.subtitulo}}</h6>
+                            <br>
+                            <div style="display: flex; justify-content: space-between;">
+                                <p style="font-size: 13px;">Para leer mas sobre este articulo<br>debes ir a la seccion de <a href="{% url 'Pages' %}">noticias</a></p>
+                                <p>{{noticia.fecha}}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div style="display: flex; justify-content: center; align-items: center; margin-top: 40px;">
+            <a href="{% url 'Pages' %}" class="btn btn-primary">Todas las noticias</a>
+        </div>
+    </main>
+{% endblock %}
